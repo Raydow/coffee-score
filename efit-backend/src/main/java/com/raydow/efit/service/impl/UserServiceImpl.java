@@ -5,6 +5,7 @@ import com.raydow.efit.repository.UserRepository;
 import com.raydow.efit.service.UserService;
 import com.raydow.efit.service.mapper.UserMapperVO;
 import com.raydow.efit.service.vo.UserVO;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,14 +19,17 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapperVO userMapperVO;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository, UserMapperVO userMapperVO) {
+    public UserServiceImpl(UserRepository userRepository, UserMapperVO userMapperVO, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.userMapperVO = userMapperVO;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public UserVO createUser(UserVO userVO) {
+        userVO.setPassword(passwordEncoder.encode(userVO.getPassword()));
         User user = userMapperVO.toEntity(userVO);
         user = userRepository.save(user);
         return userMapperVO.toVO(user);

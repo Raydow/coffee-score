@@ -7,6 +7,8 @@ import com.raydow.efit.service.vo.UserVO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import java.time.LocalDate;
 import java.util.*;
 
@@ -20,6 +22,9 @@ class UserServiceImplTest {
 
     @Mock
     private UserMapperVO userMapperVO;
+
+    @Mock
+    private PasswordEncoder passwordEncoder;
 
     @InjectMocks
     private UserServiceImpl userService;
