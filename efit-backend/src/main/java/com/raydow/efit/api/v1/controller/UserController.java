@@ -1,8 +1,8 @@
 package com.raydow.efit.api.v1.controller;
 
-import com.raydow.efit.api.v1.dto.UserCreateDTO;
-import com.raydow.efit.api.v1.dto.UserResponseDTO;
-import com.raydow.efit.api.v1.dto.UserUpdateDTO;
+import com.raydow.efit.api.v1.dto.user.UserCreateDTO;
+import com.raydow.efit.api.v1.dto.user.UserResponseDTO;
+import com.raydow.efit.api.v1.dto.user.UserUpdateDTO;
 import com.raydow.efit.api.v1.mapper.UserMapperDTO;
 import com.raydow.efit.service.UserService;
 import com.raydow.efit.service.vo.UserVO;

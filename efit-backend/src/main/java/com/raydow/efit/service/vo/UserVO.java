@@ -1,5 +1,7 @@
 package com.raydow.efit.service.vo;
 
+import com.raydow.efit.domain.UserRole;
+
 import java.time.LocalDate;
 
 public class UserVO {
@@ -12,7 +14,7 @@ public class UserVO {
     private Double weight;
     private String gender;
     private boolean active;
-    private String slug;
+    private UserRole userRole;
 
     public Integer getId() {
         return id;
@@ -86,11 +88,11 @@ public class UserVO {
         this.active = active;
     }
 
-    public String getSlug() {
-        return slug;
+    public UserRole getUserRole() {
+        return userRole;
     }
 
-    public void setSlug(String slug) {
-        this.slug = slug;
+    public void setUserRole(UserRole userRole) {
+        this.userRole = userRole;
     }
 }

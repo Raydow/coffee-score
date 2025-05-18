@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Date;
+import java.util.UUID;
 
 @Component
 public class JwtUtils {
@@ -16,6 +17,7 @@ public class JwtUtils {
     public String generateJwtToken(String email) {
         return Jwts.builder()
                 .setSubject(email)
+                .claim("jti", UUID.randomUUID().toString())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
                 .signWith(key)

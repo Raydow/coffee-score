@@ -1,8 +1,9 @@
 package com.raydow.efit.api.v1.mapper;
 
-import com.raydow.efit.api.v1.dto.UserCreateDTO;
-import com.raydow.efit.api.v1.dto.UserResponseDTO;
-import com.raydow.efit.api.v1.dto.UserUpdateDTO;
+import com.raydow.efit.api.v1.dto.user.UserCreateDTO;
+import com.raydow.efit.api.v1.dto.user.UserResponseDTO;
+import com.raydow.efit.api.v1.dto.user.UserUpdateDTO;
+import com.raydow.efit.domain.UserRole;
 import com.raydow.efit.service.vo.UserVO;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
@@ -17,11 +18,29 @@ public class UserMapperDTO {
     }
 
     public UserVO fromCreateDtoToVO(UserCreateDTO dto) {
-        return modelMapper.map(dto, UserVO.class);
+        UserVO vo = modelMapper.map(dto, UserVO.class);
+
+        if (dto.getUserRole() != null) {
+            try {
+                vo.setUserRole(UserRole.valueOf(dto.getUserRole().toUpperCase()));
+            } catch (IllegalArgumentException e) {
+                throw new IllegalArgumentException("Invalid userRole: " + dto.getUserRole());
+            }
+        }
+        return vo;
     }
 
     public UserVO fromUpdateDtoToVO(UserUpdateDTO dto) {
-        return modelMapper.map(dto, UserVO.class);
+        UserVO vo = modelMapper.map(dto, UserVO.class);
+
+        if (dto.getUserRole() != null) {
+            try {
+                vo.setUserRole(UserRole.valueOf(dto.getUserRole().toUpperCase()));
+            } catch (IllegalArgumentException e) {
+                throw new IllegalArgumentException("Invalid userRole: " + dto.getUserRole());
+            }
+        }
+        return vo;
     }
 
     public UserResponseDTO toResponseDTO(UserVO vo) {

@@ -9,8 +9,10 @@ import com.raydow.efit.domain.TokenType;
 import com.raydow.efit.domain.User;
 import com.raydow.efit.repository.TokenRepository;
 import com.raydow.efit.repository.UserRepository;
+import com.raydow.efit.service.UserService;
+import com.raydow.efit.service.mapper.UserMapperVO;
 import com.raydow.efit.service.vo.AuthenticationResponseVO;
-import com.raydow.efit.service.vo.RegisterRequestVO;
+import com.raydow.efit.service.vo.UserVO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpHeaders;
@@ -28,30 +30,28 @@ public class AuthenticationServiceImpl {
   private final PasswordEncoder passwordEncoder;
   private final JwtService jwtService;
   private final AuthenticationManager authenticationManager;
+  private final UserMapperVO userMapperVO;
 
-    public AuthenticationServiceImpl(UserRepository repository, TokenRepository tokenRepository, PasswordEncoder passwordEncoder, JwtService jwtService, AuthenticationManager authenticationManager) {
-        this.repository = repository;
-        this.tokenRepository = tokenRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.jwtService = jwtService;
-        this.authenticationManager = authenticationManager;
+    public AuthenticationServiceImpl(UserRepository repository, TokenRepository tokenRepository, PasswordEncoder passwordEncoder, JwtService jwtService, AuthenticationManager authenticationManager, UserMapperVO userMapperVO) {
+      this.repository = repository;
+      this.tokenRepository = tokenRepository;
+      this.passwordEncoder = passwordEncoder;
+      this.jwtService = jwtService;
+      this.authenticationManager = authenticationManager;
+      this.userMapperVO = userMapperVO;
     }
 
-    public AuthenticationResponseVO register(RegisterRequestVO request) {
-    var user = User.builder()
-            .name(request.getName())
-        .email(request.getEmail())
-        .password(passwordEncoder.encode(request.getPassword()))
-        .userRole(request.getUserRole())
-        .build();
-    var savedUser = repository.save(user);
-    var jwtToken = jwtService.generateToken(user);
-    var refreshToken = jwtService.generateRefreshToken(user);
-    saveUserToken(savedUser, jwtToken);
-    return AuthenticationResponseVO.builder()
-        .accessToken(jwtToken)
-            .refreshToken(refreshToken)
-        .build();
+    public AuthenticationResponseVO register(UserVO userVO) {
+      userVO.setPassword(passwordEncoder.encode(userVO.getPassword()));
+      var user = userMapperVO.toEntity(userVO);
+      var savedUser = repository.save(user);
+      var jwtToken = jwtService.generateToken(user);
+      var refreshToken = jwtService.generateRefreshToken(user);
+      saveUserToken(savedUser, jwtToken);
+      return AuthenticationResponseVO.builder()
+          .accessToken(jwtToken)
+              .refreshToken(refreshToken)
+          .build();
   }
 
   public AuthenticationResponseVO authenticate(AuthenticationRequestDTO request) {

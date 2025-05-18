@@ -1,9 +1,10 @@
 package com.raydow.efit.api.v1.controller;
 
 import com.raydow.efit.api.v1.dto.AuthenticationRequestDTO;
+import com.raydow.efit.api.v1.dto.user.UserCreateDTO;
+import com.raydow.efit.api.v1.mapper.UserMapperDTO;
 import com.raydow.efit.service.impl.AuthenticationServiceImpl;
 import com.raydow.efit.service.vo.AuthenticationResponseVO;
-import com.raydow.efit.service.vo.RegisterRequestVO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
@@ -18,16 +19,18 @@ import static com.raydow.efit.api.v1.controller.RestPath.BASE_PATH;
 public class AuthenticationController {
 
     private final AuthenticationServiceImpl service;
+    private final UserMapperDTO userMapperDTO;
 
-    public AuthenticationController(AuthenticationServiceImpl service) {
+    public AuthenticationController(AuthenticationServiceImpl service, UserMapperDTO userMapperDTO) {
         this.service = service;
+        this.userMapperDTO = userMapperDTO;
     }
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponseVO> register(
-            @RequestBody RegisterRequestVO request
+            @RequestBody UserCreateDTO userCreateDTO
     ) {
-        return ResponseEntity.ok(service.register(request));
+        return ResponseEntity.ok(service.register(userMapperDTO.fromCreateDtoToVO(userCreateDTO)));
     }
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponseVO> authenticate(

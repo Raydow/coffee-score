@@ -1,13 +1,11 @@
-package com.raydow.efit.api.v1.dto;
+package com.raydow.efit.api.v1.dto.user;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Past;
-import jakarta.validation.constraints.Size;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.*;
+
 import java.time.LocalDate;
 
-public class UserCreateDTO {
+public class UserUpdateDTO {
     @NotBlank
     public String name;
 
@@ -15,24 +13,35 @@ public class UserCreateDTO {
     @NotBlank
     public String email;
 
-    @NotBlank
     @Size(min = 6)
-    public String password;
+    public String password;  // opcional no update
 
-    @NotNull
     @Past
     public LocalDate birthDate;
 
-    @NotNull
     public Double height;
 
-    @NotNull
     public Double weight;
 
-    @NotBlank
     public String gender;
 
-    public boolean active = true;
+    public boolean active;
+
+    @Schema(
+            description = "User role",
+            allowableValues = {"USER", "ADMIN", "MANAGER"},
+            example = "USER"
+    )
+    @NotNull(message = "userRole is required")
+    private String userRole;
+
+    public String getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(String userRole) {
+        this.userRole = userRole;
+    }
 
     public String getName() {
         return name;

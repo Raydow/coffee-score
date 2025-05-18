@@ -1,4 +1,4 @@
-package com.raydow.efit.api.v1.dto;
+package com.raydow.efit.api.v1.dto.user;
 
 import java.time.LocalDate;
 
@@ -18,6 +18,8 @@ public class UserResponseDTO {
     public String gender;
 
     public boolean active;
+
+    public String userRole;
 
     public Integer getId() {
         return id;
@@ -81,5 +83,13 @@ public class UserResponseDTO {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public String getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(String userRole) {
+        this.userRole = userRole;
     }
 }
