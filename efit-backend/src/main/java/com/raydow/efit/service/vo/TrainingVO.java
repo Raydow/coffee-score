@@ -10,6 +10,7 @@ public class TrainingVO {
   private TrainingStatus status;
   private Integer userId;
   private Integer trainingTypeId;
+  private String trainingTypeName;
 
   public Integer getId() {
     return id;
@@ -49,5 +50,13 @@ public class TrainingVO {
 
   public void setTrainingTypeId(Integer trainingTypeId) {
     this.trainingTypeId = trainingTypeId;
+  }
+
+  public String getTrainingTypeName() {
+    return trainingTypeName;
+  }
+
+  public void setTrainingTypeName(String trainingTypeName) {
+    this.trainingTypeName = trainingTypeName;
   }
 }

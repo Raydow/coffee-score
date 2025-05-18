@@ -49,4 +49,41 @@ public class TrainingHistoryVO {
   public void setTrainingTypeId(Integer trainingTypeId) {
     this.trainingTypeId = trainingTypeId;
   }
+
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  public static class Builder {
+    private final TrainingHistoryVO instance = new TrainingHistoryVO();
+
+    public Builder id(Integer id) {
+      instance.setId(id);
+      return this;
+    }
+
+    public Builder startedAt(LocalDateTime startedAt) {
+      instance.setStartedAt(startedAt);
+      return this;
+    }
+
+    public Builder endedAt(LocalDateTime endedAt) {
+      instance.setEndedAt(endedAt);
+      return this;
+    }
+
+    public Builder userId(Integer userId) {
+      instance.setUserId(userId);
+      return this;
+    }
+
+    public Builder trainingTypeId(Integer trainingTypeId) {
+      instance.setTrainingTypeId(trainingTypeId);
+      return this;
+    }
+
+    public TrainingHistoryVO build() {
+      return instance;
+    }
+  }
 }

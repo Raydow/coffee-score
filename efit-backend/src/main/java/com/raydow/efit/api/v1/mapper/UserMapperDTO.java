@@ -8,6 +8,8 @@ import com.raydow.efit.service.vo.UserVO;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
+import static org.modelmapper.convention.MatchingStrategies.STRICT;
+
 @Component
 public class UserMapperDTO {
 
@@ -15,6 +17,7 @@ public class UserMapperDTO {
 
     public UserMapperDTO() {
         this.modelMapper = new ModelMapper();
+        this.modelMapper.getConfiguration().setMatchingStrategy(STRICT);
     }
 
     public UserVO fromCreateDtoToVO(UserCreateDTO dto) {

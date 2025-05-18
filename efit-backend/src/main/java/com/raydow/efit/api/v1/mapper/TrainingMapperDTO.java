@@ -4,7 +4,10 @@ import com.raydow.efit.api.v1.dto.training.TrainingCreateDTO;
 import com.raydow.efit.api.v1.dto.training.TrainingResponseDTO;
 import com.raydow.efit.service.vo.TrainingVO;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.stereotype.Component;
+
+import static org.modelmapper.convention.MatchingStrategies.STRICT;
 
 @Component
 public class TrainingMapperDTO {
@@ -13,6 +16,7 @@ public class TrainingMapperDTO {
 
     public TrainingMapperDTO() {
         this.modelMapper = new ModelMapper();
+        this.modelMapper.getConfiguration().setMatchingStrategy(STRICT);
     }
 
     public TrainingVO fromCreateDtoToVO(TrainingCreateDTO dto) {

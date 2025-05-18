@@ -5,6 +5,8 @@ import com.raydow.efit.domain.User;
 import com.raydow.efit.domain.TrainingType;
 import com.raydow.efit.domain.TrainingStatus;
 import com.raydow.efit.repository.TrainingRepository;
+import com.raydow.efit.repository.TrainingTypeRepository;
+import com.raydow.efit.service.TrainingHistoryService;
 import com.raydow.efit.service.mapper.TrainingMapperVO;
 import com.raydow.efit.service.vo.TrainingVO;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -35,6 +38,12 @@ class TrainingServiceImplTest {
 
     @Mock
     private TrainingMapperVO trainingMapperVO;
+
+    @Mock
+    private TrainingTypeRepository trainingTypeRepository;
+
+    @Mock
+    private TrainingHistoryService trainingHistoryService;
 
     @InjectMocks
     private TrainingServiceImpl trainingService;
@@ -69,20 +78,35 @@ class TrainingServiceImplTest {
         trainingVO.setStatus(TrainingStatus.IN_PROGRESS);
         trainingVO.setUserId(userEntity.getId());
         trainingVO.setTrainingTypeId(trainingTypeEntity.getId());
+        trainingVO.setTrainingTypeName("Cardio");
     }
 
     @Test
     void createTraining_shouldReturnCreatedTrainingVO() {
-        when(trainingMapperVO.toEntity(trainingVO)).thenReturn(trainingEntity);
-        when(trainingRepository.save(trainingEntity)).thenReturn(trainingEntity);
+        when(trainingTypeRepository.findByName("Cardio")).thenReturn(Optional.of(trainingTypeEntity));
+
+        when(trainingMapperVO.toEntity(trainingVO)).thenAnswer(invocation -> {
+            TrainingVO vo = invocation.getArgument(0);
+            Training training = new Training();
+            training.setId(vo.getId());
+            training.setStartedAt(vo.getStartedAt());
+            training.setStatus(vo.getStatus());
+            training.setUser(userEntity);
+            training.setTrainingType(trainingTypeEntity);  // importante setar aqui o trainingType mockado
+            return training;
+        });
+
+        when(trainingRepository.save(any(Training.class))).thenReturn(trainingEntity);
         when(trainingMapperVO.toVO(trainingEntity)).thenReturn(trainingVO);
 
         TrainingVO result = trainingService.createTraining(trainingVO);
 
         assertNotNull(result);
         assertEquals(trainingVO.getId(), result.getId());
+
+        verify(trainingTypeRepository).findByName("Cardio");
         verify(trainingMapperVO).toEntity(trainingVO);
-        verify(trainingRepository).save(trainingEntity);
+        verify(trainingRepository).save(any(Training.class));
         verify(trainingMapperVO).toVO(trainingEntity);
     }
 
