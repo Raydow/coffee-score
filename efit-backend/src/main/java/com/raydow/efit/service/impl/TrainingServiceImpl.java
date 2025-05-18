@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.raydow.efit.domain.TrainingStatus.FINISHED;
 import static com.raydow.efit.domain.TrainingStatus.IN_PROGRESS;
 
 @Service
@@ -100,5 +101,16 @@ public class TrainingServiceImpl implements TrainingService {
             throw new RuntimeException("Training not found with id " + id);
         }
         trainingRepository.deleteById(id);
+    }
+
+    @Override
+    public void finishTraining(Integer id) {
+        Optional<TrainingVO> trainingVOOp = getTrainingById(id);
+
+        if (trainingVOOp.isPresent()) {
+            var trainingVO = trainingVOOp.get();
+            trainingVO.setStatus(FINISHED);
+            updateTraining(id, trainingVO);
+        }
     }
 }

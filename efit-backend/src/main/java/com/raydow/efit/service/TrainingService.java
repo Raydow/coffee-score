@@ -11,4 +11,5 @@ public interface TrainingService {
     List<TrainingVO> getAllTrainings();
     TrainingVO updateTraining(Integer id, TrainingVO trainingVO);
     void deleteTraining(Integer id);
+    void finishTraining(Integer id);
 }

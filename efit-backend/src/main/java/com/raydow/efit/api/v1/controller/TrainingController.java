@@ -63,4 +63,11 @@ public class TrainingController {
         trainingService.deleteTraining(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping("/{id}/finish")
+    public ResponseEntity<TrainingResponseDTO> finishTraining(@PathVariable Integer id) {
+        trainingService.finishTraining(id);
+        var training = trainingService.getTrainingById(id);
+        return ResponseEntity.ok(trainingMapperDTO.toResponseDTO(training.get()));
+    }
 }
