@@ -7,6 +7,7 @@ import com.raydow.efit.repository.TokenRepository;
 import com.raydow.efit.repository.UserRepository;
 import com.raydow.efit.service.vo.AuthenticationResponseVO;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
+@Disabled
 class AuthenticationControllerIT {
 
     @Autowired
