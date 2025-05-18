@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.raydow.efit.api.v1.controller.RestPath.BASE_PATH;
+
 @RestController
-@RequestMapping("/api/v1/users")
+@RequestMapping(BASE_PATH + "/users")
 public class UserController {
 
     private final UserService userService;

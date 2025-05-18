@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
+import static com.raydow.efit.api.v1.controller.RestPath.BASE_PATH;
+
 @RestController
-@RequestMapping("/api/v1/auth")
+@RequestMapping(BASE_PATH + "/auth")
 public class AuthenticationController {
 
     private final AuthenticationServiceImpl service;
