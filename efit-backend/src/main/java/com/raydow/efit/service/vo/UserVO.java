@@ -3,7 +3,7 @@ package com.raydow.efit.service.vo;
 import java.time.LocalDate;
 
 public class UserVO {
-    private Long id;
+    private Integer id;
     private String name;
     private String email;
     private String password;
@@ -14,11 +14,11 @@ public class UserVO {
     private boolean active;
     private String slug;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

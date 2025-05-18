@@ -3,7 +3,7 @@ package com.raydow.efit.api.v1.dto;
 import java.time.LocalDate;
 
 public class UserResponseDTO {
-    public Long id;
+    public Integer id;
 
     public String name;
 
@@ -19,11 +19,11 @@ public class UserResponseDTO {
 
     public boolean active;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

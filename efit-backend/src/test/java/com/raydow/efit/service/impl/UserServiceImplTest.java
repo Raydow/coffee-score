@@ -37,7 +37,7 @@ class UserServiceImplTest {
         MockitoAnnotations.openMocks(this);
 
         user = new User();
-        user.setId(1L);
+        user.setId(1);
         user.setName("John Doe");
         user.setEmail("john@example.com");
         user.setPassword("123456");
@@ -48,7 +48,7 @@ class UserServiceImplTest {
         user.setWeight(75.0);
 
         userVO = new UserVO();
-        userVO.setId(1L);
+        userVO.setId(1);
         userVO.setName("John Doe");
         userVO.setEmail("john@example.com");
         userVO.setPassword("123456");
@@ -74,10 +74,10 @@ class UserServiceImplTest {
 
     @Test
     void getUserById_ShouldReturnUserVO_WhenUserExists() {
-        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+        when(userRepository.findById(1)).thenReturn(Optional.of(user));
         when(userMapperVO.toVO(user)).thenReturn(userVO);
 
-        Optional<UserVO> result = userService.getUserById(1L);
+        Optional<UserVO> result = userService.getUserById(1);
 
         assertTrue(result.isPresent());
         assertEquals(userVO.getEmail(), result.get().getEmail());
@@ -85,9 +85,9 @@ class UserServiceImplTest {
 
     @Test
     void getUserById_ShouldReturnEmpty_WhenUserDoesNotExist() {
-        when(userRepository.findById(1L)).thenReturn(Optional.empty());
+        when(userRepository.findById(1)).thenReturn(Optional.empty());
 
-        Optional<UserVO> result = userService.getUserById(1L);
+        Optional<UserVO> result = userService.getUserById(1);
 
         assertTrue(result.isEmpty());
     }
@@ -105,7 +105,7 @@ class UserServiceImplTest {
 
     @Test
     void updateUser_ShouldUpdateAndReturnUserVO() {
-        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+        when(userRepository.findById(1)).thenReturn(Optional.of(user));
         doAnswer(invocation -> {
             UserVO vo = invocation.getArgument(0);
             User u = invocation.getArgument(1);
@@ -115,31 +115,31 @@ class UserServiceImplTest {
         when(userRepository.save(user)).thenReturn(user);
         when(userMapperVO.toVO(user)).thenReturn(userVO);
 
-        UserVO result = userService.updateUser(1L, userVO);
+        UserVO result = userService.updateUser(1, userVO);
 
         assertEquals(userVO.getName(), result.getName());
     }
 
     @Test
     void updateUser_ShouldThrowException_WhenUserNotFound() {
-        when(userRepository.findById(1L)).thenReturn(Optional.empty());
+        when(userRepository.findById(1)).thenReturn(Optional.empty());
 
-        assertThrows(RuntimeException.class, () -> userService.updateUser(1L, userVO));
+        assertThrows(RuntimeException.class, () -> userService.updateUser(1, userVO));
     }
 
     @Test
     void deleteUser_ShouldCallRepositoryDelete() {
-        when(userRepository.existsById(1L)).thenReturn(true);
+        when(userRepository.existsById(1)).thenReturn(true);
 
-        userService.deleteUser(1L);
+        userService.deleteUser(1);
 
-        verify(userRepository).deleteById(1L);
+        verify(userRepository).deleteById(1);
     }
 
     @Test
     void deleteUser_ShouldThrowException_WhenUserNotFound() {
-        when(userRepository.existsById(1L)).thenReturn(false);
+        when(userRepository.existsById(1)).thenReturn(false);
 
-        assertThrows(RuntimeException.class, () -> userService.deleteUser(1L));
+        assertThrows(RuntimeException.class, () -> userService.deleteUser(1));
     }
 }

@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<UserVO> getUserById(Long id) {
+    public Optional<UserVO> getUserById(Integer id) {
         return userRepository.findById(id)
                 .map(userMapperVO::toVO);
     }
@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserVO updateUser(Long id, UserVO userVO) {
+    public UserVO updateUser(Integer id, UserVO userVO) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found with id " + id));
 
@@ -63,7 +63,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(Long id) {
+    public void deleteUser(Integer id) {
         if (!userRepository.existsById(id)) {
             throw new RuntimeException("User not found with id " + id);
         }
