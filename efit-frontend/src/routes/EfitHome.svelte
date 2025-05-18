@@ -1,10 +1,13 @@
 <script>
     import { onMount } from 'svelte';
     import { fetchUsers } from '../services/userService.js';
+    import { startTraining } from '../services/trainingService.js';
+    import { TrainingType } from '../constants/trainingTypes.js';
   
     let users = [];
     let error = '';
     let loading = true;
+    let successMessage = '';
   
     async function loadUsers() {
       try {
@@ -13,6 +16,19 @@
         error = err.message || 'Erro ao carregar usuários.';
       } finally {
         loading = false;
+      }
+    }
+  
+    async function handleTraining() {
+      successMessage = '';
+      error = '';
+  
+      try {
+        if (users.length === 0) throw new Error('Nenhum usuário disponível.');
+        const training = await startTraining(users[0].id, TrainingType.BALANCED);
+        successMessage = `Treino iniciado: ${training.trainingTypeName} às ${new Date(training.startedAt).toLocaleTimeString()}`;
+      } catch (err) {
+        error = err.message || 'Erro ao iniciar treino.';
       }
     }
   
@@ -52,14 +68,23 @@
       color: red;
       margin-top: 1rem;
     }
+  
+    .success {
+      color: green;
+      margin-top: 1rem;
+    }
   </style>
   
   <h1>Bem-vindo à Efit!</h1>
   <p>Você está logado com sucesso.</p>
   
-  <button class="train-btn" on:click={() => alert('Vamos treinar!')}>
+  <button class="train-btn" on:click={handleTraining}>
     Treinar agora
   </button>
+  
+  {#if successMessage}
+    <p class="success">{successMessage}</p>
+  {/if}
   
   {#if loading}
     <p>Carregando usuários...</p>

@@ -1,4 +1,3 @@
-// services/trainingService.js
 import { TRAININGS_URL } from '../lib/api.js';
 
 export async function startTraining(userId, trainingTypeName) {
