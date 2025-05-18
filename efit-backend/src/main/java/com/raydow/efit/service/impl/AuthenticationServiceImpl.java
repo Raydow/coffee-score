@@ -39,7 +39,7 @@ public class AuthenticationServiceImpl {
 
     public AuthenticationResponseVO register(RegisterRequestVO request) {
     var user = User.builder()
-            .name(request.getFirstname())
+            .name(request.getName())
         .email(request.getEmail())
         .password(passwordEncoder.encode(request.getPassword()))
         .userRole(request.getUserRole())

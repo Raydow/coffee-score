@@ -4,26 +4,17 @@ import com.raydow.efit.domain.UserRole;
 
 public class RegisterRequestVO {
 
-  private String firstname;
-  private String lastname;
+  private String name;
   private String email;
   private String password;
   private UserRole userRole;
 
-  public String getFirstname() {
-    return firstname;
+  public String getName() {
+    return name;
   }
 
-  public void setFirstname(String firstname) {
-    this.firstname = firstname;
-  }
-
-  public String getLastname() {
-    return lastname;
-  }
-
-  public void setLastname(String lastname) {
-    this.lastname = lastname;
+  public void setName(String name) {
+    this.name = name;
   }
 
   public String getEmail() {
